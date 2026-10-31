@@ -1,0 +1,17 @@
+/* webOS 4 (Chromium 53) has no CSS grid: flex fallbacks, ignored where grid exists. */
+@supports not (display:grid){
+.tiles,.skeleton-grid{display:flex;flex-wrap:wrap}
+.tiles>*,.skeleton-grid>*{width:calc((100% - 72px)/4);margin:0 24px 24px 0}
+.tiles>*:nth-child(4n),.skeleton-grid>*:nth-child(4n){margin-right:0}
+.home-section .home-tiles>*{width:calc((100% - 88px)/5);margin:0 22px 22px 0}
+.home-section .home-tiles>*:nth-child(4n){margin-right:22px}
+.home-section .home-tiles>*:nth-child(5n){margin-right:0}
+.home-section .tiles:not(.home-tiles){flex-wrap:nowrap}
+.modal-actions{display:flex;flex-wrap:wrap}
+.modal-actions>*{width:calc(50% - 8px);margin:0 16px 16px 0}
+.modal-actions>*:nth-child(2n){margin-right:0}
+.compatibility-list{display:block}
+.compatibility-list>*{display:inline-block;vertical-align:top;margin-bottom:15px}
+.compatibility-list>*:nth-child(odd){width:360px;margin-right:22px}
+.compatibility-list>*:nth-child(even){width:calc(100% - 390px)}
+}

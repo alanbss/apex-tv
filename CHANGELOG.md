@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Add an experimental LG webOS build (`npm run build:webos`): same browser player and menu, a local relay for F1's `Cross-Origin-Resource-Policy` header, and Chromium 53 lowering. Samsung output is unchanged apart from accepting the LG Back key. Tested on one webOS 6 TV; see [webOS notes](docs/WEBOS.md).
+
 ## 0.5.12 — 2026-10-24
 
 - Add an International commentary language submenu, saved manual feed/language choices, and consistent language-code matching. Cancel stale lookups, clear account preferences on sign-out, and keep audio selections scoped to their feed.

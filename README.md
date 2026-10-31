@@ -76,6 +76,8 @@ switching, and no companion computer, using an earlier modified 0.5.11 build.
 Version 0.5.12 includes the legacy support in the standard downloadable WGT.
 See [Tizen 5.x details](docs/TIZEN-5.md).
 
+An experimental LG webOS build is described in [webOS notes](docs/WEBOS.md).
+
 The package now targets Tizen 5.0 or later; this does not guarantee playback on every TV.
 Physical Tizen 5.0 and Tizen 9 testing, additional models and regions, and DRM
 key rotation remain areas for further validation. The new WGT itself has not

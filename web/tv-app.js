@@ -548,7 +548,7 @@ window.ApexProtectionProbe = {
     form.onsubmit=function(e){e.preventDefault();if(submit.disabled)return;var q;try{q=Discovery.query(input.value);}catch(error){I18n.setText(note, error.message);input.focus();return;}current.searchTerm=q;current.query='';current.offset=0;current.filter='all';var view=current,serial=++pendingRequest;submit.disabled=true;I18n.setText(note, 'Ieškoma visuose sezonuose…');
       request('/api/search?q='+encodeURIComponent(q)).then(function(data){if(current!==view||serial!==pendingRequest||!document.contains(main))return;submit.disabled=false;current.searchResults=data.items||[];paint(current.searchResults);I18n.setText(note, 'Paieška: '+q);var first=main.querySelector('.catalog-results .tile');if(first)first.focus();else submit.focus();},function(error){if(current!==view||serial!==pendingRequest||!document.contains(main))return;submit.disabled=false;I18n.setText(note, UX.explain(error.message));submit.focus();});
     };
-    input.onkeydown=function(e){if(e.keyCode===10009||e.keyCode===27){e.preventDefault();input.blur();submit.focus();}};
+    input.onkeydown=function(e){if((e.keyCode===10009||e.keyCode===461)||e.keyCode===27){e.preventDefault();input.blur();submit.focus();}};
     if(!current.searchResults){var tips=node('div','','search-suggestions');['Singapore','Monaco','2025','Sprint'].forEach(function(term){tips.appendChild(focusKey(button(term,function(){input.value=term;form.onsubmit({preventDefault:function(){}});},'secondary-button'),'search-'+term));});box.appendChild(tips);}
   }
   function driverPreferences(main){
@@ -661,7 +661,7 @@ window.ApexProtectionProbe = {
       if(focus){current.focusKey='';var first=results.querySelector('.tile');if(first)first.focus();}
     }
     input.oninput=function(){clearTimeout(searchTimer);var view=current;searchTimer=setTimeout(function(){if(current!==view||!document.contains(input))return;current.query=input.value;current.offset=0;paintResults();},220);};
-    input.onkeydown=function(e){if(e.keyCode===13){e.preventDefault();clearTimeout(searchTimer);current.query=input.value;current.offset=0;paintResults(true);input.blur();}else if(e.keyCode===10009||e.keyCode===27){e.preventDefault();input.blur();clear.focus();}};
+    input.onkeydown=function(e){if(e.keyCode===13){e.preventDefault();clearTimeout(searchTimer);current.query=input.value;current.offset=0;paintResults(true);input.blur();}else if((e.keyCode===10009||e.keyCode===461)||e.keyCode===27){e.preventDefault();input.blur();clear.focus();}};
     paintResults();
   }
   function catalogRoute(){return current.page?'/api/catalog?page='+current.page:current.detail?'/api/detail?id='+current.detail:current.tab==='live'?'/api/live':'/api/catalog?page=493';}
@@ -1401,7 +1401,7 @@ window.ApexProtectionProbe = {
     if(current.tab==='settings'){var pane=root.querySelector('.settings-pane');if(pane&&pane.contains(document.activeElement)){rememberView();current=Object.assign({},current,{focusKey:'settings-tab-'+current.settingsGroup,scrollTop:0});render();return;}}
     if(current.tab!=='home'){showTab('home','Pradžia');return;}
     var sidebar=root.querySelector('.tv-sidebar');if(sidebar&&!sidebar.contains(document.activeElement)){var chosen=sidebar.querySelector('.selected');current.sidebarReturn=document.activeElement&&document.activeElement.getAttribute('data-focus-key');if(chosen)chosen.focus();return;}
-    dialog('Uždaryti Apex TV?','Žiūrėjimo vieta ir nustatymai jau išsaugoti šiame televizoriuje.',[{label:'Likti čia',default:true},{label:'Uždaryti',run:function(){if(window.tizen&&tizen.application)tizen.application.getCurrentApplication().exit();}}]);
+    dialog('Uždaryti Apex TV?','Žiūrėjimo vieta ir nustatymai jau išsaugoti šiame televizoriuje.',[{label:'Likti čia',default:true},{label:'Uždaryti',run:function(){if(window.tizen&&tizen.application)tizen.application.getCurrentApplication().exit();else window.close();}}]);
   }
     function streamAudioChoices(stream) {
     if(stream.manifestXML)return Views.audioTracks(stream.manifestXML);
@@ -1658,10 +1658,10 @@ window.ApexProtectionProbe = {
       try { if (window.tizen && tizen.tvinputdevice) ['MediaPlayPause', 'MediaPlay', 'MediaPause', 'MediaStop', 'MediaRewind', 'MediaFastForward'].forEach(function (key) { tizen.tvinputdevice.registerKey(key); }); } catch (e) {}
       document.addEventListener('keydown', function (event) {
         var key = event.keyCode;lastMenuInput=Date.now();
-        if(key===10009||key===27)navigationQueue.cancel();else if(key<37||key>40)navigationQueue.flush();
-        if(modal){event.preventDefault();event.stopPropagation();if(key===10009||key===27)closeModal();else{var options=Array.prototype.slice.call(modal.querySelectorAll('button')),index=options.indexOf(document.activeElement);if(key===13&&index>=0)options[index].click();else if(key===9||key>=37&&key<=40)options[(index+(key===37||key===38||(key===9&&event.shiftKey)?-1:1)+options.length)%options.length].focus();}return;}
-        if (event.target && /^(INPUT|TEXTAREA)$/.test(event.target.tagName)) { if (key === 10009 || key === 27) { event.preventDefault(); event.target.blur(); } return; }
-        if (key === 10009 || key === 27) { event.preventDefault(); goBack(); return; }
+        if((key===10009||key===461)||key===27)navigationQueue.cancel();else if(key<37||key>40)navigationQueue.flush();
+        if(modal){event.preventDefault();event.stopPropagation();if((key===10009||key===461)||key===27)closeModal();else{var options=Array.prototype.slice.call(modal.querySelectorAll('button')),index=options.indexOf(document.activeElement);if(key===13&&index>=0)options[index].click();else if(key===9||key>=37&&key<=40)options[(index+(key===37||key===38||(key===9&&event.shiftKey)?-1:1)+options.length)%options.length].focus();}return;}
+        if (event.target && /^(INPUT|TEXTAREA)$/.test(event.target.tagName)) { if ((key===10009||key===461) || key === 27) { event.preventDefault(); event.target.blur(); } return; }
+        if ((key===10009||key===461) || key === 27) { event.preventDefault(); goBack(); return; }
         if (playing) {
           if(playerKey(key))event.preventDefault();else showOverlay();
           return;

@@ -10,7 +10,8 @@
     "prepare-tv": "node tools/build-tv.mjs",
     "build:tv": "node tools/build-tv.mjs && node tools/check-legacy.mjs",
     "check:public": "node tools/check-public.mjs",
-    "check:legacy": "node tools/check-legacy.mjs"
+    "check:legacy": "node tools/check-legacy.mjs",
+    "build:webos": "node tools/build-webos.mjs"
   },
   "devDependencies": {
     "@xmldom/xmldom": "0.9.12",

@@ -15,20 +15,20 @@ async function load() {
   return esbuild;
 }
 
-export async function lowerJS(source, name = 'tv-app.js') {
+export async function lowerJS(source, name = 'tv-app.js', target = TIZEN_TARGET) {
   const { transform } = await load();
   const result = await transform(Buffer.isBuffer(source) ? source.toString('utf8') : String(source), {
-    loader: 'js', target: TIZEN_TARGET, charset: 'utf8', legalComments: 'inline',
+    loader: 'js', target, charset: 'utf8', legalComments: 'inline',
     // esbuild refuses syntax it cannot lower (e.g. BigInt literals), so the build fails instead of shipping a black screen.
     minifyWhitespace: true, sourcefile: name, logLevel: 'silent'
   });
   return Buffer.from(result.code, 'utf8');
 }
 
-export async function lowerCSS(source, name = 'tv.css') {
+export async function lowerCSS(source, name = 'tv.css', target = TIZEN_TARGET) {
   const { transform } = await load();
   const result = await transform(Buffer.isBuffer(source) ? source.toString('utf8') : String(source), {
-    loader: 'css', target: TIZEN_TARGET, charset: 'utf8', legalComments: 'inline', minifyWhitespace: true, sourcefile: name, logLevel: 'silent'
+    loader: 'css', target, charset: 'utf8', legalComments: 'inline', minifyWhitespace: true, sourcefile: name, logLevel: 'silent'
   });
   return Buffer.from(result.code, 'utf8');
 }
